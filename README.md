@@ -5,6 +5,7 @@ Was developed for solving pricing problems for branch-and-price.
 ## Usage:
 
 Implement the trait ``UserProblem``. Define the label data, resource extension function, and dominance function.
+Please see the [test folder](./tests) for examples. 
 
 ```rust
 /// Main trait to implement that holds the user implementation of the problem.

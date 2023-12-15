@@ -31,8 +31,6 @@ pub trait InitialLabelGenerator<T> {
     fn default(problem : &T) -> Self;
 }
 
-/// EdgeWeight Trait
-pub trait UserEdgeWeight : Debug {}
 
 /// Main trait to implement that holds the user implementation of the problem.
 ///
@@ -42,7 +40,7 @@ pub trait UserEdgeWeight : Debug {}
 /// - EdgeWeight: Edge attributes
 /// - BranchFilter: Constraints made available during label extension
 ///
-pub trait UserProblem<LabelMeta: Meta,  NodeWeight,EdgeWeight : UserEdgeWeight, BranchFilter>
+pub trait UserProblem<LabelMeta: Meta,  NodeWeight,EdgeWeight, BranchFilter>
 {
     /// build your problem graph and return it
     ///
@@ -70,7 +68,7 @@ pub trait UserProblem<LabelMeta: Meta,  NodeWeight,EdgeWeight : UserEdgeWeight, 
 }
 
 /// Compact struct containing dag and references to its source and sink node.
-pub struct ProblemGraph<NodeWeight,EdgeWeight : UserEdgeWeight> {
+pub struct ProblemGraph<NodeWeight,EdgeWeight > {
     pub dag : GraphType<NodeWeight,EdgeWeight>,
     pub start : NodeIndex,
     pub end : NodeIndex
@@ -80,7 +78,7 @@ pub struct ProblemGraph<NodeWeight,EdgeWeight : UserEdgeWeight> {
 pub struct RcspSolver<Problem,LabelMeta : Meta, NodeWeight,EdgeWeight , BranchFilter>
     where
         Problem : UserProblem<LabelMeta, NodeWeight, EdgeWeight,  BranchFilter>,
-        EdgeWeight: UserEdgeWeight
+
 {
     user_problem :  Problem,
     graph : ProblemGraph<NodeWeight,EdgeWeight>,
@@ -92,7 +90,6 @@ pub struct RcspSolver<Problem,LabelMeta : Meta, NodeWeight,EdgeWeight , BranchFi
 
 impl<Problem : UserProblem<LabelMeta,NodeWeight, EdgeWeight, BranchFilter>,LabelMeta : Meta, NodeWeight,EdgeWeight, BranchFilter>
     RcspSolver<Problem,LabelMeta, NodeWeight, EdgeWeight, BranchFilter>
-where EdgeWeight: UserEdgeWeight
 {
 
     pub fn new(mut problem : Problem) -> Self {
@@ -156,8 +153,7 @@ pub trait Meta : Clone + Debug  {}
 
 impl< Problem : UserProblem<LabelMeta,  NodeWeight,EdgeWeight, BranchFilter> ,LabelMeta : Meta +  InitialLabelGenerator<Problem>,  NodeWeight,EdgeWeight, BranchFilter>
     RcspSolver< Problem,LabelMeta,  NodeWeight,EdgeWeight, BranchFilter>
-    where EdgeWeight: UserEdgeWeight,
-          NodeWeight: Debug + Clone ,
+    where NodeWeight: Debug + Clone ,
 {
 
 
