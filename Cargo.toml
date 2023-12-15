@@ -1,5 +1,7 @@
 [package]
 name = "generic-rcsp"
+description = "A rust library for solving the resource constrained shortest path problem using a dynamic programming labeling algorithm. Was developed for solving pricing problems for branch-and-price."
+repository = "https://github.com/gregod/GenericRCSP"
 version = "0.1.0"
 edition = "2021"
 license = "MPL-2.0"
